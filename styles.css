@@ -6,29 +6,25 @@ body {
 .nav-header {
     display: flex;
     flex-direction: column;
+    align-items: stretch;
     height: 130px;
     justify-content: center;
-    align-items: center;
     background-color: #d7c0c0;
     border: 0;
 }
 
 .nav-main {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    width: 100%;
     align-items: center;
     gap: 20px;
-    padding: 0px 20px;
-    position: relative;
+    padding: 0px;
 }
 
 .nav-logo {
     display: flex;
     align-items: center;
-    justify-content: left;
-    margin: 0px;
-    padding: 0px 20px 0px 0px;    
-    width: 40px;
-    height: auto;
 }
 
 .nav-logo img {
@@ -39,7 +35,7 @@ body {
 .nav-links {
     display: flex;
     gap: 20px;
-    align-items: center;
+    padding:8px 0 12px;
     justify-content: center;
 }
 
@@ -50,7 +46,10 @@ body {
 }
 
 .nav-search {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    justify-self: center;
+    
 }
+
+.nav-right {
+    width:150px;
+} /* reserva opcional para futuro (usuario/carrito) */
