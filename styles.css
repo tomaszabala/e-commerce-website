@@ -5,19 +5,34 @@ body {
 
 .nav-header {
     display: flex;
-    height: 100px;
-    justify-content: space-between;
+    flex-direction: column;
+    height: 130px;
+    justify-content: center;
     align-items: center;
     background-color: #d7c0c0;
-    border: 0;    
+    border: 0;
+}
+
+.nav-main {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0px 20px;
+    position: relative;
 }
 
 .nav-logo {
     display: flex;
     align-items: center;
+    justify-content: left;
     margin: 0px;
     padding: 0px 20px 0px 0px;    
     width: 40px;
+    height: auto;
+}
+
+.nav-logo img {
+    width: 150px;
     height: auto;
 }
 
@@ -26,4 +41,16 @@ body {
     gap: 20px;
     align-items: center;
     justify-content: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #000;
+    font-weight: 600;
+}
+
+.nav-search {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
