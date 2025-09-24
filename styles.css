@@ -1,6 +1,7 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .nav-header {
@@ -17,6 +18,7 @@ body {
     display: grid;
     grid-template-columns: auto 1fr auto;
     width: 100%;
+    height: 80px;
     align-items: center;
     gap: 20px;
     padding: 0px;
@@ -36,20 +38,41 @@ body {
     display: flex;
     gap: 20px;
     padding:8px 0 12px;
-    justify-content: center;
+    justify-content: center;    
+    font-weight: 400;
 }
 
-.nav-links a {
+.nav-links>a {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
     text-decoration: none;
-    color: #000;
-    font-weight: 600;
+    color: #383838;
 }
 
 .nav-search {
+    display: flex;
     justify-self: center;
-    
+}
+
+.nav-search>input {    
+    width: 30vw;
+    height: 35px;
+    font-size: 15px;
+    padding: 0 10px;
+    font-family: "Proxima Nova", Arial, sans-serif, sans-serif;
+    border: none;
 }
 
 .nav-right {
     width:150px;
 } /* reserva opcional para futuro (usuario/carrito) */
+
+.btn-search {
+    height: 35px;
+    border: none;
+}
+
+.img-search {
+    opacity: 0.5;
+}
