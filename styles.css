@@ -19,7 +19,7 @@ body {
     align-items: stretch;
     height: 130px;
     justify-content: center;
-    background-color: #7B1E3A;
+    background-color: var(--primary-color);
     border: 0;
 }
 
@@ -45,9 +45,8 @@ body {
 
 .nav-links {
     display: flex;
-    gap: 20px;
     margin: 0px;
-    padding:8px 0 12px;
+    padding:8px 12px;
     justify-content: center;    
     font-weight: 400;
 }
@@ -55,8 +54,7 @@ body {
 .nav-links>li>a {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 5px;
-    padding: 6px;
+    padding: 11px;
     margin: 0px;
     color: #ffffff;
     border-radius: 3px;
@@ -75,7 +73,7 @@ body {
 
 .nav-search {
     display: flex;
-    justify-self: center;
+    justify-content: center;
 }
 
 .nav-search>input {    
@@ -100,7 +98,7 @@ body {
     opacity: 0.5;
 }
 
-.main-article {
+.header-article {
     background-image: url(./img/img-index.jpg);
     height: 400px;
     width: 100%;
@@ -109,11 +107,11 @@ body {
     align-items: center;
     justify-content: center;
     position: absolute;
-    background-repeat: no-repeat;
-    background-size: cover;
+    /* background-repeat: no-repeat; */
+    /* background-size: cover; */
 }
 
-.main-article::before{
+.header-article::before{
     content: "";
     position: absolute;
     top: 0;
@@ -123,7 +121,7 @@ body {
     background-color: rgba(0, 0, 0, 0.5); /* filtro oscuro */
 }
 
-.main-article>div>h1 {
+.header-article>div>h1 {
     font-size: 60px;
     margin: 0;
     padding: 0;
@@ -131,7 +129,7 @@ body {
     font-weight: 100;
 }
 
-.main-article>div>h3 {
+.header-article>div>h3 {
     font-size: 30px;
     margin: 0;
     padding: 0;
@@ -139,8 +137,40 @@ body {
     font-weight: 100;
 }
 
-.main-article-text {
+.header-article-text {
     position: relative;
-    text-align: center;
-    z-index: 1; /* para que el texto esté por encima del filtro */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filters {
+    position: static;
+    top: 420px;
+    left: 0;
+    width: 200px;
+    height: 400px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    margin-top: 420px;
+}
+
+.product-card{
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    /* overflow: hidden; */
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
