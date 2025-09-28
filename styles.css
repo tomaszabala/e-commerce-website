@@ -145,14 +145,15 @@ body {
 }
 
 .filters {
-    position: static;
+    position: relative;
     top: 420px;
     left: 0;
     width: 200px;
     height: 400px;
-    background-color: #f4f4f4;
+    background-color: #cfcfcf;
     padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .product-container {
@@ -173,4 +174,5 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 15px;
 }
