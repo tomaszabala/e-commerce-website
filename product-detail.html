@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WinesBay</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <header class="nav-header">
+        <div class="nav-main">
+            <div class="nav-logo">
+                <img src="./img/logo-blanco.png" alt="logo" width="150px">
+            </div>
+            <form class="nav-search">
+                <input type="text" id="search" placeholder="Encontrá tus productos...">
+                <button type="submit" class="btn-search">
+                    <img src="./img/icon-search.png" class="img-search" alt="icono-busqueda" width="20px">
+                </button>
+            </form>
+
+            <div class="nav-right">
+                <a href="cart.html" class="nav-cart">
+                    <img src="./img/shopping-cart.png" alt="carrito" width="30px">
+                </a>
+            </div>
+            
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="about.html">Nosotros</a></li>
+                <li><a href="contact.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="product-detail">
+        <div class="container">
+            <nav class="pd-breadcrumbs">
+                <a href="index.html">Inicio > Nampe Malbec </a> 
+            </nav>
+
+            <section class="pd-layout">
+              <!-- Media -->
+              <div class="pd-card pd-media">
+                  <img src="./img/img-product.jpg" alt="Nampe Malbec 750ml">
+              </div>
+          
+              <!-- Info -->
+              <div class="pd-card pd-info">
+                  <h1 class="pd-title">Nampe Malbec</h1>
+                  <p class="pd-meta">Botella 750ml · Malbec</p>
+                  <p class="pd-desc">
+                    Malbec joven con notas de ciruelas y violetas. Taninos suaves y final amable.
+                    Ideal para carnes rojas y pastas con salsa.
+                  </p>
+              
+                  <ul class="pd-info-list">
+                      <li><p>Bodega: Nampe</p></li>
+                      <li><p>Origen: Mendoza, Argentina</p></li>
+                      <li><p>Cosecha: 2022</p></li>
+                      <li><p>Alcohol: 13,5%</p></li>
+                  </ul>
+              
+                  <div class="pd-price-row">
+                      <span class="pd-price">$12.000</span>
+                
+                      <label class="pd-qty">
+                        Cantidad
+                        <input type="number" min="1" value="1">
+                      </label>
+                  </div>
+              
+                  <div class="pd-actions">
+                      <a href="./cart.html" class="btn-primary">Añadir al carrito</a>
+                      <a href="index.html" class="btn-ghost">Volver al inicio</a>
+                  </div>
+              </div>
+            </section>
+        </div>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <div>
+          <h3>WinesBay</h3>
+          <p>El lugar de tus vinos favoritos.</p>
+        </div>
+        <div>
+          <h3>Secciones</h3>
+          <p><a href="index.html">Inicio</a></p>
+          <p><a href="contact.html">Contacto</a></p>
+          <p><a href="cart.html">Carrito</a></p>
+        </div>
+        <div>
+          <h3>Contacto</h3>
+          <p><a href="mailto:hola@winesbay.com">contacto@winesbay.com</a></p>
+          <p>Buenos Aires, AR</p>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        © 2025 WinesBay. Todos los derechos reservados.
+      </div>
+    </footer>    
+</body>
+</html>
