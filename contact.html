@@ -18,13 +18,11 @@
                     <img src="./img/icon-search.png" class="img-search" alt="icono-busqueda" width="20px">
                 </button>
             </form>
-
             <div class="nav-right">
                 <a href="cart.html" class="nav-cart">
                     <img src="./img/shopping-cart.png" alt="carrito" width="30px">
                 </a>
             </div>
-            
         </div>
         <nav>
             <ul class="nav-links">
@@ -34,48 +32,58 @@
             </ul>
         </nav>
     </header>
-    <main class="product-detail">
-        <div class="container">
-            <nav class="pd-route-link">
-                <a href="index.html">Inicio > Nampe Malbec </a> 
-            </nav>
+    <main class="contact-page">
+      <div class="container">
+        <h1>Contacto</h1>
 
-            <section class="pd-layout">
-              <!-- Media -->
-              <div class="pd-card pd-media">
-                  <img src="./img/img-product.jpg" alt="Nampe Malbec 750ml">
+        <section class="contact-layout">
+          <!-- Info -->
+          <aside class="contact-card">
+            <h2>WinesBay</h2>
+            <p>El lugar de tus vinos favoritos.</p>
+            <hr>
+            <p>Email: <a href="mailto:contacto@winesbay.com">contacto@winesbay.com</a></p>
+            <p>Ubicación: Buenos Aires, AR</p>
+            <p>Horario: Lun-Vie 9-18 hs</p>
+          </aside>
+
+          <!-- Formulario -->
+          <form class="contact-card" action="#" method="post" novalidate>
+            <h2>Escribinos</h2>
+
+            <div class="row-2">
+              <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input id="nombre" name="nombre" type="text" required placeholder="Tu nombre">
               </div>
-          
-              <!-- Info -->
-              <div class="pd-card pd-info">
-                  <h1 class="pd-title">Nampe Malbec</h1>
-                  <p class="pd-meta">Botella 750ml, Malbec</p>
-                  <p class="pd-desc">Malbec joven con notas de ciruelas y violetas. Taninos suaves y final amable. Ideal para carnes rojas y pastas con salsa.</p>
-              
-                  <ul class="pd-info-list">
-                      <li><p>Bodega: Nampe</p></li>
-                      <li><p>Origen: Mendoza, Argentina</p></li>
-                      <li><p>Cosecha: 2022</p></li>
-                      <li><p>Alcohol: 13,5%</p></li>
-                  </ul>
-              
-                  <div class="pd-price-row">
-                      <span class="pd-price">$12.000</span>
-                
-                      <label class="pd-qty">
-                        Cantidad
-                        <input type="number" min="1" value="1">
-                      </label>
-                  </div>
-              
-                  <div class="pd-actions">
-                      <a href="./cart.html" class="btn-primary">Añadir al carrito</a>
-                      <a href="index.html" class="btn-ghost">Volver al inicio</a>
-                  </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" required placeholder="tu@mail.com">
               </div>
-            </section>
-        </div>
+            </div>
+
+            <div class="row-2">
+              <div class="form-group">
+                <label for="telefono">Teléfono (opcional)</label>
+                <input id="telefono" name="telefono" type="tel" placeholder="+54 11 1234 5678">
+              </div>
+              <div class="form-group">
+                <label for="asunto">Asunto</label>
+                <input id="asunto" name="asunto" type="text" required placeholder="Consulta, pedido, etc.">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="mensaje">Mensaje</label>
+              <textarea id="mensaje" name="mensaje" rows="6" required placeholder="Contanos en qué podemos ayudarte"></textarea>
+            </div>
+
+            <button class="btn-primary" type="submit">Enviar mensaje</button>
+          </form>
+        </section>
+      </div>
     </main>
+
     <footer class="site-footer">
         <div class="container footer-content">
             <div>
@@ -98,6 +106,6 @@
         <div class="container footer-bottom">
             © 2025 WinesBay. Todos los derechos reservados.
         </div>
-    </footer>   
+    </footer>  
 </body>
 </html>
