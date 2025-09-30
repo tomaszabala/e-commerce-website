@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WinesBay</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <header class="nav-header">
+        <div class="nav-main">
+            <div class="nav-logo">
+                <img src="./img/logo-blanco.png" alt="logo" width="150px">
+            </div>
+            <form class="nav-search">
+                <input type="text" id="search" placeholder="Encontrá tus productos...">
+                <button type="submit" class="btn-search">
+                    <img src="./img/icon-search.png" class="img-search" alt="icono-busqueda" width="20px">
+                </button>
+            </form>
+
+            <div class="nav-right">
+                <a href="cart.html" class="nav-cart">
+                    <img src="./img/shopping-cart.png" alt="carrito" width="30px">
+                </a>
+            </div>
+            
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="about.html">Nosotros</a></li>
+                <li><a href="contact.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="cart">
+        <div class="container">
+          <h1>Tu carrito</h1>
+
+          <div class="cart-layout">
+
+            <!-- Lista de productos -->
+
+            <section class="cart-items">
+
+                <article class="cart-item">
+                    <img src="./img/img-product.jpg" alt="Nampe Malbec">
+                    <div class="info">
+                      <h3 class="name">Nampe Malbec</h3>
+                      <p class="meta">Botella 750ml · Malbec</p>
+                    </div>
+                    <div class="qty">Cantidad: 1</div>
+                    <div class="price">$12.000</div>
+                </article>  
+                <article class="cart-item">
+                    <img src="./img/img-product.jpg" alt="Luigi Bosca Pinot Noir">
+                    <div class="info">
+                      <h3 class="name">Luigi Bosca Pinot Noir</h3>
+                      <p class="meta">Botella 750ml · Pinot Noir</p>
+                    </div>
+                    <div class="qty">Cantidad: 2</div>
+                    <div class="price">$7.000</div>
+                </article>
+                <article class="cart-item">
+                    <img src="./img/img-product.jpg" alt="Norton Reserva Merlot">
+                    <div class="info">
+                      <h3 class="name">Norton Reserva Merlot</h3>
+                      <p class="meta">Botella 750ml · Merlot</p>
+                    </div>
+                    <div class="qty">Cantidad: 1</div>
+                    <div class="price">$8.000</div>
+                </article>
+                <article class="cart-item">
+                  <img src="./img/img-product.jpg" alt="Angélica Zapata Chardonnay">
+                  <div class="info">
+                    <h3 class="name">Angélica Zapata Chardonnay</h3>
+                    <p class="meta">Botella 750ml · Chardonnay</p>
+                  </div>
+                  <div class="qty">Cantidad: 1</div>
+                  <div class="price">$15.000</div>
+                </article>
+            </section>
+
+            <!-- Resumen -->
+            <aside class="cart-summary" aria-label="Resumen de compra">
+                <h2>Resumen</h2>
+                <div class="summary-row"><span>Subtotal</span><span>$49.000</span></div>
+                <div class="summary-row"><span>Envío</span><span>A calcular</span></div>
+                <div class="summary-row total"><span>Total</span><span>$49.000</span></div>
+                <a href="#" class="btn-primary">Finalizar compra</a>
+            </aside>
+          </div>
+        </div>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <div>
+          <h3>WinesBay</h3>
+          <p>El lugar de tus vinos favoritos.</p>
+        </div>
+        <div>
+          <h3>Secciones</h3>
+          <p><a href="index.html">Inicio</a></p>
+          <p><a href="contact.html">Contacto</a></p>
+          <p><a href="cart.html">Carrito</a></p>
+        </div>
+        <div>
+          <h3>Contacto</h3>
+          <p><a href="mailto:hola@winesbay.com">contacto@winesbay.com</a></p>
+          <p>Buenos Aires, AR</p>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        © 2025 WinesBay. Todos los derechos reservados.
+      </div>
+    </footer>
+</body>
+</html>
