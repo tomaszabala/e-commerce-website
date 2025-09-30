@@ -637,7 +637,7 @@ body {
     padding:10px 12px; 
     border:1px solid #e5e7eb; 
     border-radius:10px; 
-    font:inherit;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .row-2{ 
