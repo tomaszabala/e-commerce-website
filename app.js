@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     
+    //data
     const listProducts = [
         {name: 'Nampe Malbec', price: 12000, img: './img/img-product.jpg'},
         {name: 'Nampe Cabernet', price: 13000, img: './img/img-product.jpg'},
@@ -9,12 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
         {name: 'Nampe Malbec Rosé', price: 14000, img: './img/img-product.jpg'},
     ];
 
-
-    // CREANDO ELEMENTOS DINÁMICAMENTE CON JS DENTRO DEL DOM
-
+    //dom elements
     const productsDomElements = document.querySelector('.products-container'); // elemento padre
-
-
+    const inputSearch = document.getElementById('input-search-products');
+ 
+    //functions
     function createProduct(product) {
 
         // creo el nuevo div
@@ -56,9 +56,29 @@ document.addEventListener('DOMContentLoaded', function() {
         return newProduct;
     }
 
-    listProducts.forEach( product => {
-        const newProduct = createProduct(product);
-        productsDomElements.appendChild(newProduct);
+    function filterProducts(text) {
+        const productsfilterted = listProducts.filter( product => product.name.toLowerCase().includes(text.toLowerCase())); 
+        //name.toLowerCase para que no importe mayusculas o minusculas
+        // includes para ver si el texto que estoy escribiendo está incluido en el nombre del producto
+        return productsfilterted;
+    }
+
+    function renderProducts(products) {
+        productsDomElements.innerHTML = ''; // limpio el contenedor antes de agregar los productos filtrados, para que no queden productos de busquedas anteriores
+        products.forEach( product => {
+            const newProduct = createProduct(product);
+            productsDomElements.appendChild(newProduct);
+        });
+    }
+
+    //events
+    inputSearch.addEventListener('keyup', function(event) { // keyup para que se dispare el evento al soltar la tecla cuando se busca algo
+        const searchText = event.target.value;
+        const filteredProducts = filterProducts(searchText);
+        renderProducts(filteredProducts);
     });
+    
+    //inicialización
+    renderProducts(listProducts);
 
 });
