@@ -44,6 +44,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const newProductButton = document.createElement('button');
         newProductButton.innerText = 'Agregar al Carrito';
+        newProductButton.addEventListener('click', (event) => {
+            event.preventDefault(); // para que no navegue al detalle del producto al hacer click en el boton
+            console.log(`Producto ${product.name} agregado al carrito.`);
+        });
         
         // agrego los elementos al div
         newDiv.appendChild(newImg);
