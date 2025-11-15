@@ -1,58 +1,64 @@
 document.addEventListener('DOMContentLoaded', function() {
-
-// // CREANDO ELEMENTOS DINÁMICAMENTE CON JS DENTRO DEL DOM
-
-// let products = document.querySelector('.product-container'); // elemento padre
-
-// // creo nuevo div
-// let newProduct = document.createElement('div');
-// newProduct.setAttribute('class', 'product-card');
-
-// // lo agrego al DOM
-// products.appendChild(newProduct);
-
-// // para hacer backticks apreto altgr + cierre de llave dos veces = ``
-
-// // creo elementos del producto
-// const newAnchor = document.createElement('a');
-// newAnchor.setAttribute('href', './product-detail.html');
-
-// const newDiv = document.createElement('div');
-// newDiv.setAttribute('class', 'product-info');
-
-// const newImg = document.createElement('img');
-// newImg.setAttribute('src', './img/img-product.jpg');
-// newImg.setAttribute('alt', 'Product Image');
-// newImg.setAttribute('width', '100');
-
-// const newProductName = document.createElement('h4');
-// newProductName.innerText = 'Nampe Malbec';
-
-// const newProductPrice = document.createElement('p');
-// newProductPrice.innerText = 'Precio: $12.000';
-
-// const newProductButton = document.createElement('button');
-// newProductButton.innerText = 'Agregar al Carrito';
-
-// // agrego los elementos al div
-// newDiv.appendChild(newImg);
-// newDiv.appendChild(newProductName);
-// newDiv.appendChild(newProductPrice);
-// newDiv.appendChild(newProductButton);
-// newAnchor.appendChild(newDiv);
-// newProduct.appendChild(newAnchor);
-
-// const buttons = document.querySelector('.btn-add-chart');
     
-    const buttons = document.querySelectorAll('.btn-add-chart');
+    const listProducts = [
+        {name: 'Nampe Malbec', price: 12000, img: './img/img-product.jpg'},
+        {name: 'Nampe Cabernet', price: 13000, img: './img/img-product.jpg'},
+        {name: 'Nampe Syrah', price: 12500, img: './img/img-product.jpg'},
+        {name: 'Nampe Torrontes', price: 11000, img: './img/img-product.jpg'},
+        {name: 'Nampe Chardonnay', price: 11500, img: './img/img-product.jpg'},
+        {name: 'Nampe Malbec Rosé', price: 14000, img: './img/img-product.jpg'},
+    ];
 
-    buttons.forEach((button) => {
-        button.addEventListener('click', function() {
-                console.log('Producto agregado al carrito');
-        })
+
+    // CREANDO ELEMENTOS DINÁMICAMENTE CON JS DENTRO DEL DOM
+
+    const productsDomElements = document.querySelector('.products-container'); // elemento padre
+
+
+    function createProduct(product) {
+
+        // creo el nuevo div
+        const newProduct = document.createElement('div');
+        newProduct.setAttribute('class', 'product-card');
+
+        
+        // creo elementos del producto
+        const newAnchor = document.createElement('a');
+        newAnchor.setAttribute('href', './product-detail.html');
+        
+        const newDiv = document.createElement('div');
+        newDiv.setAttribute('class', 'product-info');
+        
+        const newImg = document.createElement('img');
+        newImg.setAttribute('src', product.img);
+        newImg.setAttribute('alt', product.name);
+        newImg.setAttribute('width', '100px');
+        
+        const newProductName = document.createElement('h4');
+        newProductName.setAttribute('class', 'product-name');
+        newProductName.innerText = product.name;
+        
+        const newProductPrice = document.createElement('p');
+        newProductPrice.setAttribute('class', 'product-price');
+        newProductPrice.innerText = `Precio: $${product.price}`;
+        
+        const newProductButton = document.createElement('button');
+        newProductButton.innerText = 'Agregar al Carrito';
+        
+        // agrego los elementos al div
+        newDiv.appendChild(newImg);
+        newDiv.appendChild(newProductName);
+        newDiv.appendChild(newProductPrice);
+        newDiv.appendChild(newProductButton);
+        newAnchor.appendChild(newDiv);
+        newProduct.appendChild(newAnchor);
+
+        return newProduct;
+    }
+
+    listProducts.forEach( product => {
+        const newProduct = createProduct(product);
+        productsDomElements.appendChild(newProduct);
     });
-
-
-    
 
 });
