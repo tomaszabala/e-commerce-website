@@ -105,9 +105,154 @@ document.addEventListener("DOMContentLoaded", () => {
     //inicialización
     renderProducts(listProducts);
 
+
+    // Edition form
+    
+    function createEditForm(product) {
+        const newDivOverlay = document.createElement('div');
+        newDivOverlay.setAttribute('class', 'edit-overlay');
+
+        // Crear modal con el formulario
+        const newDivForm = document.createElement('div');
+        newDivForm.setAttribute('class', 'edit-form');
+        modal.innerHTML = `
+            <h2 style="margin-bottom: 20px; color: #333;">Editar Producto</h2>
+            <form id="form-edit-product">
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Nombre:</label>
+                    <input 
+                        type="text" 
+                        id="edit-name" 
+                        value="${product.name}" 
+                        required
+                        style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"
+                    >
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Precio:</label>
+                    <input 
+                        type="number" 
+                        id="edit-price" 
+                        value="${product.price}" 
+                        required
+                        style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"
+                    >
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Categoría:</label>
+                    <select 
+                        id="edit-category" 
+                        required
+                        style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"
+                    >
+                        <option value="Malbec" ${product.category === 'Malbec' ? 'selected' : ''}>Malbec</option>
+                        <option value="Syrah" ${product.category === 'Syrah' ? 'selected' : ''}>Syrah</option>
+                        <option value="Cabernet" ${product.category === 'Cabernet' ? 'selected' : ''}>Cabernet</option>
+                        <option value="Chardonnay" ${product.category === 'Chardonnay' ? 'selected' : ''}>Chardonnay</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">URL de Imagen:</label>
+                    <input 
+                        type="text" 
+                        id="edit-img" 
+                        value="${product.img}" 
+                        required
+                        style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"
+                    >
+                </div>
+                
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button 
+                        type="button" 
+                        id="btn-cancel-edit"
+                        style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;"
+                    >
+                        Cancelar
+                    </button>
+                    <button 
+                        type="submit"
+                        style="padding: 10px 20px; background: #8B1538; color: white; border: none; border-radius: 4px; cursor: pointer;"
+                    >
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        `;
+
+        newDivOverlay.appendChild(newDivForm);
+        document.body.appendChild(newDivOverlay);
+
+        // Event para cerrar el form
+        const btnCancel = newDivForm.querySelector('#btn-cancel-edit');
+        btnCancel.addEventListener('click', () => {
+            document.body.removeChild(newDivOverlay);
+        });
+
+        // Cerrar al hacer click fuera del form
+        newDivOverlay.addEventListener('click', (event) => {
+            if (event.target === newDivOverlay) {
+                document.body.removeChild(newDivOverlay);
+            }
+        });
+
+        // Event listener para el formulario
+        const form = modal.querySelector('#form-edit-product');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const updatedProduct = {
+                name: document.getElementById('edit-name').value,
+                price: parseFloat(document.getElementById('edit-price').value),
+                category: document.getElementById('edit-category').value,
+                img: document.getElementById('edit-img').value
+            };
+
+            // Llamar a la función de edición
+            await editProductInAirtable(product.id, updatedProduct);
+            
+            // Cerrar el modal
+            document.body.removeChild(overlay);
+            
+            // Recargar los productos
+            await getProductsFromAirtable();
+        });
+    }
+
+
+    // events
+    
+    adminContainer.addEventListener('click', (event) => {
+        // Si se hace click en el botón editar
+        if (event.target.classList.contains('btn-edit')) {
+            const productId = event.target.getAttribute('data-id');
+            const product = listProducts.find(product => product.id === productId);
+            
+            if (product) {
+                createEditForm(product);
+            } else {
+                console.error('Producto no encontrado');
+            }
+        }
+        
+        // Si se hace click en el botón eliminar
+        if (event.target.classList.contains('btn-delete')) {
+            const productId = event.target.getAttribute('data-id');
+            const confirmDelete = confirm('¿Estás seguro de que quieres eliminar este producto?');
+            
+            if (confirmDelete) {
+                deleteProductInAirtable(productId);
+            }
+        }
+    });
+
+
     async function editProductInAirtable (product) {
         try {
-            const response = await fetch(`${airtableUrl}/rec2FoMmRsp26VATJ`, {
+            const response = await fetch(`${airtableUrl}/${product.id}`, {
                 method: 'PATCH',  //si no le indico el método, por defecto siempre va a ser GET
                 headers: {
                     'Authorization': `Bearer ${API_TOKEN}`, // le indico el token de autorización, siempre debe llevar 'Bearer ' antes del token
@@ -129,19 +274,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function editedProduct(product) {
-        if (product.addEventListener('click', (event) =>{
-            event.newBtnEdit.value === typeof ('submit')
-        })) {
-            editProductInAirtable({
-                Name: product.name,
-                Price: product.price,
-                Category: product.category,
-                Img: product.img
-            });
-        };
-    }
 
-    editedProduct();
 
 });
