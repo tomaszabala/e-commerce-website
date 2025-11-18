@@ -98,10 +98,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     background-color: var(--background-color);
     border-radius: 50%;
+    text-decoration: none;
+    font-size: 10px;
 }
 
 .nav-cart>img{    
@@ -741,8 +743,24 @@ body {
     align-items: center;
 }
 
-.admin-main-section{
+.admin-main-section  {
     padding: 20px;
+}
+
+.btn-edit {
+    background:#1f5d9d;
+    color:white;
+    padding:5px 10px;
+    border:none;
+    border-radius:4px;
+}
+
+.btn-delete {
+    background:#9d1f1f;
+    color:white;
+    padding:5px 10px;
+    border:none;
+    border-radius:4px;
 }
 
 /* RESPONSIVE */

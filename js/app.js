@@ -140,36 +140,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //inicialización
     renderProducts(listProducts);
-
-    async function editProductInAirtable (product) {
-        try {
-            const response = await fetch(`${airtableUrl}/rec2FoMmRsp26VATJ`, {
-                method: 'PATCH',  //si no le indico el método, por defecto siempre va a ser GET
-                headers: {
-                    'Authorization': `Bearer ${API_TOKEN}`, // le indico el token de autorización, siempre debe llevar 'Bearer ' antes del token
-                    'Content-Type': 'application/json'  // le indico que el contenido de la promesa es un objeto JSON
-                },
-                body: JSON.stringify({  // lo transformo porque el contenido del body de una promesa HTTP siempre deben ser un string
-                    fields: {
-                        Name: product.name,
-                        Price: product.price,
-                        Category: product.category,
-                        Img: product.img
-                    }
-                })
-            });
-            const data = await response.json();
-            console.log('edited product:', data);
-        } catch (error) {
-            console.error('Error editing product in Airtable:', error);
-        }
-    }
-
-    // editProductInAirtable({
-    //     name: 'Nampe Malbec Edited',
-    //     price: 125,
-    //     category: 'Malbec',
-    //     img: './img/img-product.jpg'
-    // });
-
+        
 });
