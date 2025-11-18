@@ -109,83 +109,135 @@ document.addEventListener("DOMContentLoaded", () => {
         const newDivOverlay = document.createElement('div');
         newDivOverlay.setAttribute('class', 'edit-overlay');
 
-        // Crear modal con el formulario
+        // Create form
         const newDivForm = document.createElement('div');
         newDivForm.setAttribute('class', 'edit-form');
-        modal.innerHTML = `
-            <h2 style="margin-bottom: 20px; color: #333;">Editar Producto</h2>
-            <form id="form-edit-product">
-                <div style="margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Nombre:</label>
-                    <input 
-                        type="text" 
-                        id="edit-name" 
-                        value="${product.name}" 
-                        required
-                        style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"
-                    >
-                </div>
-                
-                <div style="margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Precio:</label>
-                    <input 
-                        type="number" 
-                        id="edit-price" 
-                        value="${product.price}" 
-                        required
-                        style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"
-                    >
-                </div>
-                
-                <div style="margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Categoría:</label>
-                    <select 
-                        id="edit-category" 
-                        required
-                        style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"
-                    >
-                        <option value="Malbec" ${product.category === 'Malbec' ? 'selected' : ''}>Malbec</option>
-                        <option value="Syrah" ${product.category === 'Syrah' ? 'selected' : ''}>Syrah</option>
-                        <option value="Cabernet" ${product.category === 'Cabernet' ? 'selected' : ''}>Cabernet</option>
-                        <option value="Chardonnay" ${product.category === 'Chardonnay' ? 'selected' : ''}>Chardonnay</option>
-                    </select>
-                </div>
-                
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">URL de Imagen:</label>
-                    <input 
-                        type="text" 
-                        id="edit-img" 
-                        value="${product.img}" 
-                        required
-                        style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"
-                    >
-                </div>
-                
-                <div style="display: flex; gap: 10px; justify-content: flex-end;">
-                    <button 
-                        type="button" 
-                        id="btn-cancel-edit"
-                        style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;"
-                    >
-                        Cancelar
-                    </button>
-                    <button 
-                        type="submit"
-                        style="padding: 10px 20px; background: #8B1538; color: white; border: none; border-radius: 4px; cursor: pointer;"
-                    >
-                        Guardar Cambios
-                    </button>
-                </div>
-            </form>
-        `;
 
+        // Título del formulario
+        const formTitle = document.createElement('h2');
+        formTitle.setAttribute('class', 'form-title');
+        formTitle.innerText = 'Editar Producto';
+
+        // Crear el formulario
+        const editForm = document.createElement('form');
+        editForm.setAttribute('id', 'form-edit-product');
+
+        // Form-Name
+        const divName = document.createElement('div');
+        divName.setAttribute('class', 'form-group-sections');
+
+        const labelName = document.createElement('label');
+        labelName.setAttribute('class', 'form-label');
+        labelName.innerText = 'Nombre:';
+
+        const inputName = document.createElement('input');
+        inputName.setAttribute('type', 'text');
+        inputName.setAttribute('id', 'edit-name');
+        inputName.setAttribute('class', 'form-input');
+        inputName.setAttribute('value', product.name);
+        inputName.setAttribute('required', '');
+
+        divName.appendChild(labelName);
+        divName.appendChild(inputName);
+
+        // Form-Price
+        const divPrice = document.createElement('div');
+        divPrice.setAttribute('class', 'form-group-sections');
+
+        const labelPrice = document.createElement('label');
+        labelPrice.setAttribute('class', 'form-label');
+        labelPrice.innerText = 'Precio:';
+
+        const inputPrice = document.createElement('input');
+        inputPrice.setAttribute('type', 'number');
+        inputPrice.setAttribute('id', 'edit-price');
+        inputPrice.setAttribute('class', 'form-input');
+        inputPrice.setAttribute('value', product.price);
+        inputPrice.setAttribute('required', '');
+
+        divPrice.appendChild(labelPrice);
+        divPrice.appendChild(inputPrice);
+
+        // Form-Categories
+        const divCategory = document.createElement('div');
+        divCategory.setAttribute('class', 'form-group-sections');
+
+        const labelCategory = document.createElement('label');
+        labelCategory.setAttribute('class', 'form-label');
+        labelCategory.innerText = 'Categoría:';
+
+        const selectCategory = document.createElement('select');
+        selectCategory.setAttribute('id', 'edit-category');
+        selectCategory.setAttribute('class', 'form-select');
+        selectCategory.setAttribute('required', '');
+
+        // Crear opciones del select
+        const categories = ['Malbec', 'Syrah', 'Cabernet', 'Chardonnay'];
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.setAttribute('value', category);
+            option.innerText = category;
+
+            // Marcar como selected si coincide con la categoría del producto
+            if (category === product.category) {
+                option.setAttribute('selected', '');
+            }
+
+            selectCategory.appendChild(option);
+        });
+
+        divCategory.appendChild(labelCategory);
+        divCategory.appendChild(selectCategory);
+
+        // Form-Image
+        const divImg = document.createElement('div');
+        divImg.setAttribute('class', 'form-group-sections');
+
+        const labelImg = document.createElement('label');
+        labelImg.setAttribute('class', 'form-label');
+        labelImg.innerText = 'URL de Imagen:';
+
+        const inputImg = document.createElement('input');
+        inputImg.setAttribute('type', 'text');
+        inputImg.setAttribute('id', 'edit-img');
+        inputImg.setAttribute('class', 'form-input');
+        inputImg.setAttribute('value', product.img);
+        divImg.appendChild(labelImg);
+        divImg.appendChild(inputImg);
+
+        // Form-buttons
+        const divButtons = document.createElement('div');
+        divButtons.setAttribute('class', 'form-buttons');
+
+        const btnCancel = document.createElement('button');
+        btnCancel.setAttribute('type', 'button');
+        btnCancel.setAttribute('id', 'btn-cancel-edit');
+        btnCancel.setAttribute('class', 'btn-cancel');
+        btnCancel.innerText = 'Cancelar';
+
+        const btnSubmit = document.createElement('button');
+        btnSubmit.setAttribute('type', 'submit');
+        btnSubmit.setAttribute('class', 'btn-submit');
+        btnSubmit.innerText = 'Guardar Cambios';
+
+        divButtons.appendChild(btnCancel);
+        divButtons.appendChild(btnSubmit);
+
+        // Assembling form
+        form.appendChild(divName);
+        form.appendChild(divPrice);
+        form.appendChild(divCategory);
+        form.appendChild(divImg);
+        form.appendChild(divButtons);
+        newDivForm.appendChild(formTitle);
+        newDivForm.appendChild(form);
         newDivOverlay.appendChild(newDivForm);
         document.body.appendChild(newDivOverlay);
 
+
         // Event para cerrar el form
-        const btnCancel = document.getElementById('btn-cancel-edit');
-        btnCancel.addEventListener('click', () => {
+        const btnCancelEdit = document.getElementById('btn-cancel-edit');
+        btnCancelEdit.addEventListener('click', () => {
             document.body.removeChild(newDivOverlay);
         });
 
@@ -203,7 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const updatedProduct = {
                 name: document.getElementById('edit-name').value,
-                price: parseFloat(document.getElementById('edit-price').value), //parsea el precio hasta encontrar un caracter que no sea numerico, de encontrarlo arrojará un error
+                price: document.getElementById('edit-price').value, 
                 category: document.getElementById('edit-category').value,
                 img: document.getElementById('edit-img').value
             };
@@ -280,18 +332,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
             
-            if (response.ok) {
+            if (response.ok) {  // la propiedad .ok contiene un booleano que indica si la respuesta tiene status 200 (successful) o no.
                 console.log('Producto eliminado exitosamente');
-                alert('¡Producto eliminado correctamente!');
                 await getProductsFromAirtable(); // Recargar productos
             }
         } catch (error) {
             console.error('Error deleting product in Airtable:', error);
-            alert('Error al eliminar el producto');
         }
     }
 
     //inicialización
     getProductsFromAirtable();
-    
+
 });

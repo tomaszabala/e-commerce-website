@@ -737,6 +737,8 @@ body {
     text-decoration: none;
 }
 
+/* Estilos de elementos del DOM cargados dinámicamente desde JS */
+
 .admin-title {
     display: flex;
     justify-content: space-between;
@@ -783,6 +785,87 @@ body {
     max-width: 500px;
     width: 90%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-group-sections {
+    margin-bottom: 15px;
+}
+
+.form-group-sections:last-of-type {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Select de categorías */
+.form-select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Contenedor de botones */
+.form-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* Botón cancelar */
+.btn-cancel {
+    padding: 10px 20px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background: #5a6268;
+}
+
+/* Botón guardar */
+.btn-submit {
+    padding: 10px 20px;
+    background: #8B1538;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-submit:hover {
+    background: #6d1028;
+}
+
+/* Estilos de focus para mejor UX */
+.form-input:focus,
+.form-select:focus {
+    outline: none;
+    border-color: #8B1538;
+    box-shadow: 0 0 0 3px rgba(139, 21, 56, 0.1);
 }
 
 /* RESPONSIVE */
