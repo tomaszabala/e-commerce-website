@@ -100,10 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    getProductsFromAirtable();
-
-    //inicialización
-    renderProducts(listProducts);
+    
 
 
     // Edition form
@@ -187,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.appendChild(newDivOverlay);
 
         // Event para cerrar el form
-        const btnCancel = newDivForm.querySelector('#btn-cancel-edit');
+        const btnCancel = document.getElementById('btn-cancel-edit');
         btnCancel.addEventListener('click', () => {
             document.body.removeChild(newDivOverlay);
         });
@@ -200,13 +197,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         // Event listener para el formulario
-        const form = modal.querySelector('#form-edit-product');
+        const form = document.getElementById('form-edit-product');
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
 
             const updatedProduct = {
                 name: document.getElementById('edit-name').value,
-                price: parseFloat(document.getElementById('edit-price').value),
+                price: parseFloat(document.getElementById('edit-price').value), //parsea el precio hasta encontrar un caracter que no sea numerico, de encontrarlo arrojará un error
                 category: document.getElementById('edit-category').value,
                 img: document.getElementById('edit-img').value
             };
@@ -214,8 +211,8 @@ document.addEventListener("DOMContentLoaded", () => {
             // Llamar a la función de edición
             await editProductInAirtable(product.id, updatedProduct);
             
-            // Cerrar el modal
-            document.body.removeChild(overlay);
+            // Cerrar el form
+            document.body.removeChild(newDivOverlay);
             
             // Recargar los productos
             await getProductsFromAirtable();
@@ -228,8 +225,8 @@ document.addEventListener("DOMContentLoaded", () => {
     adminContainer.addEventListener('click', (event) => {
         // Si se hace click en el botón editar
         if (event.target.classList.contains('btn-edit')) {
-            const productId = event.target.getAttribute('data-id');
-            const product = listProducts.find(product => product.id === productId);
+            const productId = event.target.getAttribute('id');
+            const product = listProducts.map(product => product.id === productId);
             
             if (product) {
                 createEditForm(product);
@@ -240,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Si se hace click en el botón eliminar
         if (event.target.classList.contains('btn-delete')) {
-            const productId = event.target.getAttribute('data-id');
+            const productId = event.target.getAttribute('id');
             const confirmDelete = confirm('¿Estás seguro de que quieres eliminar este producto?');
             
             if (confirmDelete) {
@@ -274,6 +271,27 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    async function deleteProductInAirtable(productId) {
+        try {
+            const response = await fetch(`${airtableUrl}/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${API_TOKEN}`
+                }
+            });
+            
+            if (response.ok) {
+                console.log('Producto eliminado exitosamente');
+                alert('¡Producto eliminado correctamente!');
+                await getProductsFromAirtable(); // Recargar productos
+            }
+        } catch (error) {
+            console.error('Error deleting product in Airtable:', error);
+            alert('Error al eliminar el producto');
+        }
+    }
 
-
+    //inicialización
+    getProductsFromAirtable();
+    
 });
