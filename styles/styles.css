@@ -727,6 +727,14 @@ body {
     margin:0; 
 }
 
+.btn-add-product {
+    padding: 10px 15px;
+    background-color: #7a1f1f;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
 /* RESPONSIVE */
 @media (max-width: 1400px){
       .products-section{ 
