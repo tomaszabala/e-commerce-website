@@ -222,11 +222,11 @@ document.addEventListener("DOMContentLoaded", () => {
         divButtons.appendChild(btnSubmit);
 
         // Assembling form
-        form.appendChild(divName);
-        form.appendChild(divPrice);
-        form.appendChild(divCategory);
-        form.appendChild(divImg);
-        form.appendChild(divButtons);
+        editForm.appendChild(divName);
+        editForm.appendChild(divPrice);
+        editForm.appendChild(divCategory);
+        editForm.appendChild(divImg);
+        editForm.appendChild(divButtons);
         newDivForm.appendChild(formTitle);
         newDivForm.appendChild(form);
         newDivOverlay.appendChild(newDivForm);
