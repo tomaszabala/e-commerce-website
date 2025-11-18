@@ -133,7 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
         inputName.setAttribute('id', 'edit-name');
         inputName.setAttribute('class', 'form-input');
         inputName.setAttribute('value', product.name);
-        inputName.setAttribute('required', '');
 
         divName.appendChild(labelName);
         divName.appendChild(inputName);
@@ -151,7 +150,6 @@ document.addEventListener("DOMContentLoaded", () => {
         inputPrice.setAttribute('id', 'edit-price');
         inputPrice.setAttribute('class', 'form-input');
         inputPrice.setAttribute('value', product.price);
-        inputPrice.setAttribute('required', '');
 
         divPrice.appendChild(labelPrice);
         divPrice.appendChild(inputPrice);
@@ -167,7 +165,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const selectCategory = document.createElement('select');
         selectCategory.setAttribute('id', 'edit-category');
         selectCategory.setAttribute('class', 'form-select');
-        selectCategory.setAttribute('required', '');
 
         // Crear opciones del select
         const categories = ['Malbec', 'Syrah', 'Cabernet', 'Chardonnay'];
@@ -228,7 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
         editForm.appendChild(divImg);
         editForm.appendChild(divButtons);
         newDivForm.appendChild(formTitle);
-        newDivForm.appendChild(form);
+        newDivForm.appendChild(editForm);
         newDivOverlay.appendChild(newDivForm);
         document.body.appendChild(newDivOverlay);
 
@@ -288,7 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Si se hace click en el botón eliminar
         if (event.target.classList.contains('btn-delete')) {
             const productId = event.target.getAttribute('id');
-            const confirmDelete = confirm('¿Estás seguro de que quieres eliminar este producto?');
+            const confirmDelete = confirm('¿Estás seguro de que quieres eliminar este producto?'); // no supe que opcion utilizar para una mejor interfaz
             
             if (confirmDelete) {
                 deleteProductInAirtable(productId);
@@ -299,7 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function editProductInAirtable (product) {
         try {
-            const response = await fetch(`${airtableUrl}/${product.id}`, {
+            const response = await fetch(airtableUrl, {
                 method: 'PATCH',  //si no le indico el método, por defecto siempre va a ser GET
                 headers: {
                     'Authorization': `Bearer ${API_TOKEN}`, // le indico el token de autorización, siempre debe llevar 'Bearer ' antes del token
