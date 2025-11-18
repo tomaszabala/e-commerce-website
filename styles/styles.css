@@ -735,6 +735,16 @@ body {
     text-decoration: none;
 }
 
+.admin-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-main-section{
+    padding: 20px;
+}
+
 /* RESPONSIVE */
 @media (max-width: 1400px){
       .products-section{ 

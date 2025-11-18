@@ -1,24 +1,37 @@
+import { AIRTABLE_TOKEN, BASE_ID, TABLE_NAME } from './env.js';
+
 document.addEventListener('DOMContentLoaded', function() {
     
-    //data
-    const listProducts = [
-        {id:1, name: 'Nampe Malbec', category: 'Malbec', price: 12000, img: './img/img-product.jpg'},
-        {id:2, name: 'Nampe Cabernet', category: 'Cabernet', price: 13000, img: './img/img-product.jpg'},
-        {id:3, name: 'López Syrah', category: 'Syrah', price: 12500, img: './img/img-product.jpg'},
-        {id:4, name: 'Los Alamos Syrah', category: 'Syrah', price: 11000, img: './img/img-product.jpg'},
-        {id:5, name: 'Nampe Chardonnay', category: 'Chardonnay', price: 11500, img: './img/img-product.jpg'},
-        {id:6, name: 'Casillero Malbec Rosé', category: 'Malbec', price: 14000, img: './img/img-product.jpg'},
-    ];
-
+    
     //dom elements
     const productsDomElements = document.querySelector('.products-container'); // elemento padre
     const inputSearch = document.getElementById('input-search-products');
+    const categoryLinks = document.querySelectorAll('.category-product-filter');
 
     //data Airtable
-    const API_TOKEN = "patvZf4rDTzTZtlSm.63b377870a77b473e4249c16e5e4e29bea5d2c3ea955ed61562ec3a69d1003f5";
-    const BASE_ID = "apprjdFndW1TUrjzi";
-    const TABLE_NAME = "Products";
-    const airtableUrl = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
+    const API_TOKEN = AIRTABLE_TOKEN;
+    const baseId = BASE_ID;
+    const tableName = TABLE_NAME;
+    const airtableUrl = `https://api.airtable.com/v0/${baseId}/${tableName}`;
+
+    // estado global
+    let listProducts = [];
+    const currentFilters = { text: '', category: ''};
+
+    //events
+    inputSearch.addEventListener('keyup', (event) => { // keyup para que se dispare el evento al soltar la tecla cuando se busca algo
+        currentFilters.text = event.target.value.toLowerCase();
+        renderProducts(filterProducts());
+    });
+
+    categoryLinks.forEach( link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const category = event.target.innerText.toLowerCase();
+            currentFilters.category = (currentFilters.category === category) ? '' : category;
+            renderProducts(filterProducts());
+        });
+    });
 
     //functions
     function createProduct(product) {
@@ -72,12 +85,15 @@ document.addEventListener('DOMContentLoaded', function() {
         return newProduct;
     }
 
-    function filterProducts(text) {
-        const productsfilterted = listProducts.filter( product => product.name.toLowerCase().includes(text.toLowerCase())); 
-        //name.toLowerCase para que no importe mayusculas o minusculas
+    function filterProducts() {
+        return listProducts.filter(product =>
+          product.name.toLowerCase().includes(currentFilters.text) &&
+          (currentFilters.category === '' || product.category.toLowerCase() === currentFilters.category)
+        );
+        // name.toLowerCase para que no importe mayusculas o minusculas
         // includes para ver si el texto que estoy escribiendo está incluido en el nombre del producto
-        return productsfilterted;
     }
+
 
     function renderProducts(products) {
         productsDomElements.innerHTML = ''; // limpio el contenedor antes de agregar los productos filtrados, para que no queden productos de busquedas anteriores
@@ -87,18 +103,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    //events
-    inputSearch.addEventListener('input', function(event) { // keyup para que se dispare el evento al soltar la tecla cuando se busca algo
-        const searchText = event.target.value;
-        const filteredProducts = filterProducts(searchText);
-        renderProducts(filteredProducts);
-    });
-    
-    //inicialización
-    renderProducts(listProducts);
 
-    
-    // Airtable functions
+    // Una promesa es un objeto que representa la finalización o el fracaso de una operación asincrónica.
+    // Fetch es un método nativo de javascript que nos permite hacer peticiones HTTP asincrónicas a un servidor y devuelve una promesa.
+    // Scrapear: Significa tomar datos de una página, es utilizado mucho hoy en día.
+    // Por ejemplo puedo tomar datos de un listado de autos de Mercado Libre y aplicarle técnicas de scraping para poder utilizar el código en mi propia web.
+
+
+    // Airtable functions and promises
     async function getProductsFromAirtable () {
         try {
             const response = await fetch(airtableUrl, {
@@ -115,25 +127,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 img: item.fields.Img,
                 category: item.fields.Category
             }));
-            console.log('mapped products:', mappedProducts);
+            listProducts = mappedProducts; // actualizar la lista de productos con los datos de Airtable
+            console.log('mapped products from Airtable:', mappedProducts);
             renderProducts(mappedProducts);
         }
-        catch (error) {
+        catch (error) { // el catch se ejecuta si hay un error en el try
             console.error('Error fetching products from Airtable:', error);
         }
     }
 
     getProductsFromAirtable();
 
+    //inicialización
+    renderProducts(listProducts);
+
     async function editProductInAirtable (product) {
         try {
             const response = await fetch(`${airtableUrl}/rec2FoMmRsp26VATJ`, {
-                method: 'PATCH',
+                method: 'PATCH',  //si no le indico el método, por defecto siempre va a ser GET
                 headers: {
-                    'Authorization': `Bearer ${API_TOKEN}`,
-                    'Content-Type': 'application/json'
+                    'Authorization': `Bearer ${API_TOKEN}`, // le indico el token de autorización, siempre debe llevar 'Bearer ' antes del token
+                    'Content-Type': 'application/json'  // le indico que el contenido de la promesa es un objeto JSON
                 },
-                body: JSON.stringify({
+                body: JSON.stringify({  // lo transformo porque el contenido del body de una promesa HTTP siempre deben ser un string
                     fields: {
                         Name: product.name,
                         Price: product.price,
@@ -149,11 +165,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    editProductInAirtable({
-        name: 'Nampe Malbec Edited',
-        price: 125,
-        category: 'Malbec',
-        img: './img/img-product.jpg'
-    });
+    // editProductInAirtable({
+    //     name: 'Nampe Malbec Edited',
+    //     price: 125,
+    //     category: 'Malbec',
+    //     img: './img/img-product.jpg'
+    // });
 
 });
