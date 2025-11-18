@@ -98,9 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
         catch (error) { // el catch se ejecuta si hay un error en el try
             console.error('Error fetching products from Airtable:', error);
         }
-    }
-
-    
+    }   
 
 
     // Edition form
