@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const newProductButton = document.createElement('button');
         newProductButton.innerText = 'Agregar al Carrito';
         newProductButton.addEventListener('click', (event) => {
-            event.preventDefault(); // para que no navegue al detalle del producto al hacer click en el boton
+            event.preventDefault(); // para que no se ejecute un submit por defecto
             console.log(`Producto ${product.name} agregado al carrito.`);
         });
         

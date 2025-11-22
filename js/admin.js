@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
         inputName.setAttribute('type', 'text');
         inputName.setAttribute('id', 'edit-name');
         inputName.setAttribute('class', 'form-input');
-        inputName.setAttribute('value', product.name);
+        // inputName.setAttribute('value', product.name);
 
         divName.appendChild(labelName);
         divName.appendChild(inputName);
@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
         inputImg.setAttribute('type', 'text');
         inputImg.setAttribute('id', 'edit-img');
         inputImg.setAttribute('class', 'form-input');
-        inputImg.setAttribute('value', product.img);
+        // inputImg.setAttribute('value', product.img);
         divImg.appendChild(labelImg);
         divImg.appendChild(inputImg);
 
@@ -297,7 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function editProductInAirtable (product) {
         try {
             const response = await fetch(airtableUrl, {
-                method: 'PATCH',  //si no le indico el método, por defecto siempre va a ser GET
+                method: 'PATCH',  // si no le indico el método, por defecto siempre va a ser GET
                 headers: {
                     'Authorization': `Bearer ${API_TOKEN}`, // le indico el token de autorización, siempre debe llevar 'Bearer ' antes del token
                     'Content-Type': 'application/json'  // le indico que el contenido de la promesa es un objeto JSON
