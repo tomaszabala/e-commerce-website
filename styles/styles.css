@@ -782,6 +782,11 @@ body {
     text-decoration: none;
 }
 
+.btn-add-product:hover {
+    background-color: #5e1616;
+    transition: 0.3s;
+}
+
 /* Estilos de elementos del DOM cargados dinámicamente desde JS */
 
 .admin-title {

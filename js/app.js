@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
         newProductPrice.innerText = `Precio: $${product.price}`;
         
         const newProductButton = document.createElement('button');
-        newProductButton.setAttribute('class', 'btn-add-to-cart');
+        newProductButton.setAttribute('class', 'btn-add-product');
         newProductButton.innerText = 'Agregar al Carrito';
         newProductButton.addEventListener('click', (event) => {
             event.preventDefault();
