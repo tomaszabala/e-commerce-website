@@ -256,8 +256,18 @@ body {
     padding: 0;
 }
 
+.filter-ul>li {
+    margin: 10px 0;
+}
+
 .category-product-filter{
     text-decoration: none;
+    color: #000;
+}
+
+.category-product-filter:hover {
+    color: var(--deco-color);
+    transition: 0.3s;
 }
 
 
