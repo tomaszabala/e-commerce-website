@@ -1165,6 +1165,20 @@ body {
     animation: slideOut 0.3s ease-in;
 }
 
+/* ADMIN */
+
+.nav-btn-admin {
+    background-color: #722f37;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-btn-admin:hover {
+    background-color: #5a252c;
+}
+
 @keyframes slideIn {
     from {
         transform: translateX(100%);
