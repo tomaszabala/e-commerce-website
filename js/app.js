@@ -1,6 +1,11 @@
 import { AIRTABLE_TOKEN, BASE_ID, TABLE_NAME } from './env.js';
 
 document.addEventListener('DOMContentLoaded', function() {
+
+
+    
+    // Inicializar cartCounter al cargar la página
+    updateCartCounter();
     
     
     //dom elements
@@ -43,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // creo elementos del producto
         const newAnchor = document.createElement('a');
-        newAnchor.setAttribute('href',  `./product-detail.html?code=${encodeURIComponent(product.id)}`);
+        newAnchor.setAttribute('href',  `./product-detail.html?code=${encodeURIComponent(product.recordId)}`);
         
         const newDiv = document.createElement('div');
         newDiv.setAttribute('class', 'product-info');
@@ -55,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const newProductName = document.createElement('h4');
         newProductName.setAttribute('class', 'product-name');
-        newProductName.setAttribute('id', `product-name-${product.id}`);
+        newProductName.setAttribute('id', `product-name-${product.recordId}`);
         newProductName.innerText = product.name;
 
         const newProductCategory = document.createElement('p');
@@ -104,6 +109,65 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    
+    function addToCart(product) {
+        let cart = [];
+        
+        // Cargar carrito existente
+        const savedCart = localStorage.getItem('winesbay-cart');
+        if (savedCart) {
+            cart = JSON.parse(savedCart);
+        }
+        
+        // Buscar si el producto ya existe
+        const existingProduct = cart.find(item => item.recordId === product.recordId);
+        
+        if (existingProduct) {
+            existingProduct.quantity += 1;
+        } else {
+            cart.push({
+                recordId: product.recordId,
+                name: product.name,
+                price: product.price,
+                category: product.category,
+                img: product.img,
+                quantity: 1
+            });
+        }
+        
+        // Guardar en localStorage
+        localStorage.setItem('winesbay-cart', JSON.stringify(cart));
+        
+        // Actualizar cartCounter
+        updateCartCounter();
+        
+        console.log(`${product.name} agregado al carrito`);
+    }
+    
+    
+    function updateCartCounter() {
+        const savedCart = localStorage.getItem('winesbay-cart');
+        let cart = savedCart ? JSON.parse(savedCart) : [];
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        
+        let cartCounter = document.querySelector('.cart-counter');
+        
+        if (totalItems > 0) {
+            if (!cartCounter) {
+                cartCounter = document.createElement('span');
+                cartCounter.setAttribute('class', 'cart-counter');
+                const cartLink = document.querySelector('.nav-cart');
+                if (cartLink) {
+                    cartLink.appendChild(cartCounter);
+                }
+            }
+            cartCounter.innerText = totalItems;
+        } else {
+            if (cartCounter) {
+                cartCounter.remove();
+            }
+        }
+    }
 
     // Una promesa es un objeto que representa la finalización o el fracaso de una operación asincrónica.
     // Fetch es un método nativo de javascript que nos permite hacer peticiones HTTP asincrónicas a un servidor y devuelve una promesa.
@@ -123,6 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
             // console.log('products from Airtable', data);
             const mappedProducts = data.records.map (item => ({
+                recordId: item.id,
                 name: item.fields.Name,
                 price: item.fields.Price,
                 img: item.fields.Img,
@@ -140,6 +205,5 @@ document.addEventListener('DOMContentLoaded', function() {
     getProductsFromAirtable();
 
     //inicialización
-    renderProducts(listProducts);
-        
+    renderProducts(listProducts);        
 });

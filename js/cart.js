@@ -238,8 +238,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const recordId = event.target.getAttribute('data-id');
                 const product = cart.find(item => item.recordId === recordId);
                 
-                if (product && confirm(`¿Eliminar ${product.name} del carrito?`)) {
-                    removeFromCart(recordId);
+                if (product) {
+                    createRemoveToast(recordId, product.name);
                 }
             }
         });
@@ -253,10 +253,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cartItemsContainer) {
         renderCart();
     }
-
-    // Exponer funciones globalmente para que puedan ser usadas desde otros archivos
-    window.addToCart = addToCart;
-    window.updateCartCount = updateCartCount;
 
     // Mostrar toast genérico
     function showToast(message, type = 'success') {
@@ -280,6 +276,47 @@ document.addEventListener("DOMContentLoaded", () => {
             toast.classList.remove('show');
             setTimeout(() => toast.remove(), 300);
         }, 3000);
+    }
+
+    // Mostrar toast de confirmación de eliminación
+    function createRemoveToast(recordId, productName) {
+        const overlay = document.createElement('div');
+        overlay.setAttribute('class', 'delete-overlay');
+
+        const toast = document.createElement('div');
+        toast.setAttribute('class', 'delete-toast');
+
+        toast.innerHTML = `
+            <div class="toast-icon">🗑️</div>
+            <h3 class="toast-title">¿Eliminar producto?</h3>
+            <p class="toast-message">¿Estás seguro de que quieres eliminar "${productName}" del carrito?</p>
+            <div class="toast-buttons">
+                <button class="btn-toast-cancel">Cancelar</button>
+                <button class="btn-toast-delete">Eliminar</button>
+            </div>
+        `;
+
+        overlay.appendChild(toast);
+        document.body.appendChild(overlay);
+
+        // Event para cancelar
+        toast.querySelector('.btn-toast-cancel').addEventListener('click', () => {
+            document.body.removeChild(overlay);
+        });
+
+        // Event para cerrar al hacer click fuera
+        overlay.addEventListener('click', (event) => {
+            if (event.target === overlay) {
+                document.body.removeChild(overlay);
+            }
+        });
+
+        // Event para eliminar
+        toast.querySelector('.btn-toast-delete').addEventListener('click', () => {
+            removeFromCart(recordId);
+            document.body.removeChild(overlay);
+            showToast(`${productName} eliminado del carrito`, 'success');
+        });
     }
 
     // Mostrar toast de confirmación de compra
@@ -313,4 +350,5 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => toast.remove(), 300);
         }, 4000);
     }
+
 });
