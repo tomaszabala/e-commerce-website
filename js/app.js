@@ -67,10 +67,11 @@ document.addEventListener('DOMContentLoaded', function() {
         newProductPrice.innerText = `Precio: $${product.price}`;
         
         const newProductButton = document.createElement('button');
+        newProductButton.setAttribute('class', 'btn-add-to-cart');
         newProductButton.innerText = 'Agregar al Carrito';
         newProductButton.addEventListener('click', (event) => {
-            event.preventDefault(); // para que no se ejecute un submit por defecto
-            console.log(`Producto ${product.name} agregado al carrito.`);
+            event.preventDefault();
+            addToCart(product);
         });
         
         // agrego los elementos al div
@@ -120,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
             const data = await response.json();
-            console.log('products from Airtable', data);
+            // console.log('products from Airtable', data);
             const mappedProducts = data.records.map (item => ({
                 name: item.fields.Name,
                 price: item.fields.Price,
@@ -128,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 category: item.fields.Category
             }));
             listProducts = mappedProducts; // actualizar la lista de productos con los datos de Airtable
-            console.log('mapped products from Airtable:', mappedProducts);
+            // console.log('mapped products from Airtable:', mappedProducts);
             renderProducts(mappedProducts);
         }
         catch (error) { // el catch se ejecuta si hay un error en el try
