@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // creo elementos del producto
         const newAnchor = document.createElement('a');
-        newAnchor.setAttribute('href', './product-detail.html');
+        newAnchor.setAttribute('href',  `./product-detail.html?code=${encodeURIComponent(product.id)}`);
         
         const newDiv = document.createElement('div');
         newDiv.setAttribute('class', 'product-info');
