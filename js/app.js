@@ -1,4 +1,4 @@
-import { AIRTABLE_TOKEN, BASE_ID, TABLE_NAME } from 'env.js';
+import { AIRTABLE_TOKEN, BASE_ID, TABLE_NAME } from './env.js';
 
 document.addEventListener('DOMContentLoaded', function() {
 
