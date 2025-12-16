@@ -256,6 +256,10 @@ body {
     padding: 0;
 }
 
+.category-product-filter{
+    text-decoration: none;
+}
+
 
 /* Productos */
 
