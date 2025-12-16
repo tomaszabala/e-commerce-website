@@ -85,12 +85,13 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             const data = await response.json();
             // console.log('products from Airtable', data);
-            const mappedProducts = data.records.map (item => ({
-                name: item.fields.Name,
-                recordId: item.id,
-                price: item.fields.Price,
-                img: item.fields.Img,
-                category: item.fields.Category
+            const mappedProducts = data.records.map (product => ({
+                recordId: product.id, // guardo el recordId de Airtable para futuras ediciones o eliminaciones
+                name: product.fields.Name,
+                id: product.fields.Id, // id interno del producto, campo personalizado de la tabla
+                price: product.fields.Price,
+                img: product.fields.Img,
+                category: product.fields.Category
             }));
             listProducts = mappedProducts; // actualizar la lista de productos con los datos de Airtable
             // console.log('mapped products from Airtable:', mappedProducts);
@@ -102,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }   
 
 
-    // Edition form
+    // Forms
     
     function createEditForm(product) {
 
@@ -332,11 +333,169 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function createAddForm() {
+        const newDivOverlay = document.createElement('div');
+        newDivOverlay.setAttribute('class', 'add-overlay');
+
+        // Create form
+        const newDivForm = document.createElement('div');
+        newDivForm.setAttribute('class', 'add-form');
+
+        // Título del formulario
+        const formTitle = document.createElement('h2');
+        formTitle.setAttribute('class', 'form-title');
+        formTitle.innerText = 'Agregar Producto';
+
+        // Crear el formulario
+        const addForm = document.createElement('form');
+        addForm.setAttribute('id', 'form-add-product');
+
+        // Form-Name
+        const divName = document.createElement('div');
+        divName.setAttribute('class', 'form-group-sections');
+
+        const labelName = document.createElement('label');
+        labelName.setAttribute('class', 'form-label');
+        labelName.innerText = 'Nombre:';
+
+        const inputName = document.createElement('input');
+        inputName.setAttribute('type', 'text');
+        inputName.setAttribute('id', 'add-name');
+        inputName.setAttribute('class', 'form-input');
+        inputName.setAttribute('placeholder', 'Nombre del producto');
+        inputName.setAttribute('required', '');
+
+        divName.appendChild(labelName);
+        divName.appendChild(inputName);
+
+        // Form-Price
+        const divPrice = document.createElement('div');
+        divPrice.setAttribute('class', 'form-group-sections');
+
+        const labelPrice = document.createElement('label');
+        labelPrice.setAttribute('class', 'form-label');
+        labelPrice.innerText = 'Precio:';
+
+        const inputPrice = document.createElement('input');
+        inputPrice.setAttribute('type', 'number');
+        inputPrice.setAttribute('id', 'add-price');
+        inputPrice.setAttribute('class', 'form-input');
+        inputPrice.setAttribute('placeholder', 'Precio');
+        inputPrice.setAttribute('required', '');
+
+        divPrice.appendChild(labelPrice);
+        divPrice.appendChild(inputPrice);
+
+        // Form-Categories
+        const divCategory = document.createElement('div');
+        divCategory.setAttribute('class', 'form-group-sections');
+
+        const labelCategory = document.createElement('label');
+        labelCategory.setAttribute('class', 'form-label');
+        labelCategory.innerText = 'Categoría:';
+
+        const selectCategory = document.createElement('select');
+        selectCategory.setAttribute('id', 'add-category');
+        selectCategory.setAttribute('class', 'form-select');
+        selectCategory.setAttribute('required', '');
+
+        // Crear opciones del select
+        const categories = ['Malbec', 'Syrah', 'Cabernet', 'Chardonnay'];
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.setAttribute('value', category);
+            option.innerText = category;
+            selectCategory.appendChild(option);
+        });
+
+        divCategory.appendChild(labelCategory);
+        divCategory.appendChild(selectCategory);
+
+        // Form-Image
+        const divImg = document.createElement('div');
+        divImg.setAttribute('class', 'form-group-sections');
+
+        const labelImg = document.createElement('label');
+        labelImg.setAttribute('class', 'form-label');
+        labelImg.innerText = 'URL de Imagen:';
+
+        const inputImg = document.createElement('input');
+        inputImg.setAttribute('type', 'text');
+        inputImg.setAttribute('id', 'add-img');
+        inputImg.setAttribute('class', 'form-input');
+        inputImg.setAttribute('placeholder', 'http://127.0.0.7:5501/img/');
+        inputImg.setAttribute('required', '');
+
+        divImg.appendChild(labelImg);
+        divImg.appendChild(inputImg);
+
+        // Form-buttons
+        const divButtons = document.createElement('div');
+        divButtons.setAttribute('class', 'form-buttons');
+
+        const btnCancel = document.createElement('button');
+        btnCancel.setAttribute('type', 'button');
+        btnCancel.setAttribute('id', 'btn-cancel-add');
+        btnCancel.setAttribute('class', 'btn-cancel');
+        btnCancel.innerText = 'Cancelar';
+
+        const btnSubmit = document.createElement('button');
+        btnSubmit.setAttribute('type', 'submit');
+        btnSubmit.setAttribute('class', 'btn-submit');
+        btnSubmit.innerText = 'Crear Producto';
+
+        divButtons.appendChild(btnCancel);
+        divButtons.appendChild(btnSubmit);
+
+        // Assembling form
+        addForm.appendChild(divName);
+        addForm.appendChild(divPrice);
+        addForm.appendChild(divCategory);
+        addForm.appendChild(divImg);
+        addForm.appendChild(divButtons);
+        newDivForm.appendChild(formTitle);
+        newDivForm.appendChild(addForm);
+        newDivOverlay.appendChild(newDivForm);
+        document.body.appendChild(newDivOverlay);
+
+        // Event para cerrar el form
+        const btnCancelAdd = document.getElementById('btn-cancel-add');
+        btnCancelAdd.addEventListener('click', () => {
+            document.body.removeChild(newDivOverlay);
+        });
+
+        // Cerrar al hacer click fuera del form
+        newDivOverlay.addEventListener('click', (event) => {
+            if (event.target === newDivOverlay) {
+                document.body.removeChild(newDivOverlay);
+            }
+        });
+
+        // Event listener para el formulario
+        const form = document.getElementById('form-add-product');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const newProduct = {
+                name: document.getElementById('add-name').value,
+                price: parseFloat(document.getElementById('add-price').value),
+                category: document.getElementById('add-category').value,
+                img: document.getElementById('add-img').value
+            };
+
+            // Llamar a la función de creación
+            await createProductInAirtable(newProduct);
+
+            // Cerrar el form
+            document.body.removeChild(newDivOverlay);
+        });
+    }
 
     // events
     
     adminContainer.addEventListener('click', (event) => {
-        // Si se hace click en el botón editar
+
+        // si se hace click en el botón editar
         if (event.target.classList.contains('btn-edit')) {
             const productRecordId = event.target.getAttribute('id'); // recordId de Airtable
             const product = listProducts.find(product => product.recordId === productRecordId);
@@ -348,17 +507,51 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        // Si se hace click en el botón eliminar
+        // si se hace click en el botón eliminar
         if (event.target.classList.contains('btn-delete')) {
             const productRecordId = event.target.getAttribute('id'); // recordId de Airtable
             const product = listProducts.find(product => product.recordId === productRecordId);
 
             if (product) {
-                createDeleteToast(productRecordId, product.name);  // ⭐ Llamar al toast
+                createDeleteToast(productRecordId, product.name);  // llamar al toast
             }
         }
     });
 
+    // event para crear producto
+    const btnAddProduct = document.getElementById('btn-add-product');
+    if (btnAddProduct) {
+        btnAddProduct.addEventListener('click', () => {
+            createAddForm();
+        });
+    }
+
+    async function createProductInAirtable(product) {
+        try {
+            const response = await fetch(airtableUrl, {
+                method: 'POST',  // si no le indico el método, por defecto siempre va a ser GET
+                headers: {
+                    'Authorization': `Bearer ${API_TOKEN}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({  // lo transformo porque el contenido del body de una promesa HTTP siempre deben ser un string
+                    fields: { 
+                        Name: product.name,
+                        Price: product.price,
+                        Category: product.category,
+                        Img: product.img
+                    }
+                })
+            });
+            const data = await response.json();
+            // console.log('created product:', data);
+
+            // Recargar productos después de crear
+            await getProductsFromAirtable();
+        } catch (error) {
+            console.error('Error creating product in Airtable:', error);
+        }
+    }
 
     async function editProductInAirtable (recordId, updatedProduct) {
         try {
@@ -387,9 +580,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    async function deleteProductInAirtable(productId) {
+    async function deleteProductInAirtable(recordId) {
         try {
-            const response = await fetch(`${airtableUrl}/${productId}`, {
+            const response = await fetch(`${airtableUrl}/${recordId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${API_TOKEN}`

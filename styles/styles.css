@@ -178,8 +178,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 1700px;
-    padding: 0px 30px;
+    width: 100%;
+    padding: 0px;
 }
 
 .products-title>h3{
@@ -748,12 +748,12 @@ body {
 
 .admin-title {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
 .admin-main-section  {
-    padding: 20px;
+    padding-top: 20px;
 }
 
 .btn-edit {
@@ -949,6 +949,37 @@ body {
     box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
+/* toast creation product form */
+
+.add-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.add-form {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* div add product */
+.div-add-product {
+    text-align: center;
+    margin: 20px 0;
+}
 
 /* RESPONSIVE */
 @media (max-width: 1400px){
