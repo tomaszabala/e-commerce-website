@@ -269,6 +269,69 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function createDeleteToast(recordId, productName) {
+        // Crear overlay
+        const overlay = document.createElement('div');
+        overlay.setAttribute('class', 'delete-overlay');
+
+        // Crear toast
+        const toast = document.createElement('div');
+        toast.setAttribute('class', 'delete-toast');
+
+        // Título
+        const title = document.createElement('h3');
+        title.setAttribute('class', 'toast-title');
+        title.innerText = '¿Eliminar producto?';
+
+        // Mensaje
+        const message = document.createElement('p');
+        message.setAttribute('class', 'toast-message');
+        message.innerText = `¿Estás seguro de que quieres eliminar "${productName}"? Esta acción no se puede deshacer.`;
+
+        // Contenedor de botones
+        const buttonsDiv = document.createElement('div');
+        buttonsDiv.setAttribute('class', 'toast-buttons');
+
+        // Botón cancelar
+        const btnCancel = document.createElement('button');
+        btnCancel.setAttribute('class', 'btn-toast-cancel');
+        btnCancel.innerText = 'Cancelar';
+
+        // Botón eliminar
+        const btnDelete = document.createElement('button');
+        btnDelete.setAttribute('class', 'btn-toast-delete');
+        btnDelete.innerText = 'Eliminar';
+
+        // Ensamblar
+        buttonsDiv.appendChild(btnCancel);
+        buttonsDiv.appendChild(btnDelete);
+        
+        toast.appendChild(title);
+        toast.appendChild(message);
+        toast.appendChild(buttonsDiv);
+        
+        overlay.appendChild(toast);
+        document.body.appendChild(overlay);
+
+        // Event para cancelar
+        btnCancel.addEventListener('click', () => {
+            document.body.removeChild(overlay);
+        });
+
+        // Event para cerrar al hacer click fuera
+        overlay.addEventListener('click', (event) => {
+            if (event.target === overlay) {
+                document.body.removeChild(overlay);
+            }
+        });
+
+        // Event para eliminar
+        btnDelete.addEventListener('click', async () => {
+            await deleteProductInAirtable(recordId);
+            document.body.removeChild(overlay);
+        });
+    }
+
 
     // events
     
@@ -288,10 +351,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // Si se hace click en el botón eliminar
         if (event.target.classList.contains('btn-delete')) {
             const productRecordId = event.target.getAttribute('id'); // recordId de Airtable
-            const confirmDelete = confirm('¿Estás seguro de que quieres eliminar este producto?');
+            const product = listProducts.find(product => product.recordId === productRecordId);
 
-            if (confirmDelete) {
-                deleteProductInAirtable(productRecordId); 
+            if (product) {
+                createDeleteToast(productRecordId, product.name);  // ⭐ Llamar al toast
             }
         }
     });
