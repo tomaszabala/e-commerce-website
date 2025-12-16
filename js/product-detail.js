@@ -44,14 +44,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Función para renderizar el detalle del producto
     function renderProductDetail(productData) {
+        const container = document.querySelector('.product-detail .container');
+
         if (!productData) {
-            document.querySelector('.product-detail .container').innerHTML = `
+            container.innerHTML = `
                 <div style="text-align: center; padding: 50px;">
                     <h2>Producto no encontrado</h2>
                     <p>El producto que buscas no existe o no está disponible.</p>
                     <a href="index.html" class="btn-primary">Volver al inicio</a>
-                </div>
-            `;
+                </div>`;
             return;
         }
         
@@ -68,56 +69,49 @@ document.addEventListener('DOMContentLoaded', function() {
             alcohol: productData.fields.Alcohol || 'N/A'
         };
         
-        // Actualizar ruta de navegación
-        const rutaNavegacion = document.querySelector('.pd-route-link a');
-        if (rutaNavegacion) {
-            rutaNavegacion.innerHTML = `Inicio > ${product.name}`;
-        }
         
         // Actualizar título de la página
         document.title = `${product.name} - WinesBay`;
         
-        // Actualizar imagen
-        const productImage = document.querySelector('.pd-media img');
-        if (productImage) {
-            productImage.src = product.img || './img/img-product.jpg';
-            productImage.alt = product.name;
-        }
-        
-        // Actualizar título
-        const productTitle = document.querySelector('.pd-title');
-        if (productTitle) {
-            productTitle.textContent = product.name;
-        }
-        
-        // Actualizar meta (tipo y tamaño)
-        const productMeta = document.querySelector('.pd-meta');
-        if (productMeta) {
-            productMeta.textContent = `Botella 750ml, ${product.category}`;
-        }
-        
-        // Actualizar descripción
-        const productDesc = document.querySelector('.pd-desc');
-        if (productDesc) {
-            productDesc.textContent = product.description;
-        }
-        
-        // Actualizar información detallada
-        const infoList = document.querySelector('.pd-info-list');
-        if (infoList) {
-            infoList.innerHTML = `
-                <li><p><strong>Bodega:</strong> ${product.bodega}</p></li>
-                <li><p><strong>Origen:</strong> ${product.origen}</p></li>
-                <li><p><strong>Cosecha:</strong> ${product.cosecha}</p></li>
-                <li><p><strong>Alcohol:</strong> ${product.alcohol}</p></li>
-            `;
-        }
-        
-        // Actualizar precio
-        const productPrice = document.querySelector('.pd-price');
-        if (productPrice) {
-            productPrice.textContent = `$${formatPrice(product.price)}`;
-        }
+        // Crear toda la estructura HTML
+        container.innerHTML = `
+            <nav class="pd-route-link">
+                <a href="index.html">Inicio > ${product.name}</a> 
+            </nav>
+
+            <section class="pd-layout">
+              <div class="pd-card pd-media">
+                  <img src="${product.img || './img/img-product.jpg'}" alt="${product.name}">
+              </div>
+          
+              <div class="pd-card pd-info">
+                  <h1 class="pd-title">${product.name}</h1>
+                  <p class="pd-meta">Botella 750ml, ${product.category}</p>
+                  <p class="pd-desc">${product.description}</p>
+              
+                  <ul class="pd-info-list">
+                      <li><p><strong>Bodega:</strong> ${product.bodega}</p></li>
+                      <li><p><strong>Origen:</strong> ${product.origen}</p></li>
+                      <li><p><strong>Cosecha:</strong> ${product.cosecha}</p></li>
+                      <li><p><strong>Alcohol:</strong> ${product.alcohol}</p></li>
+                  </ul>
+              
+                  <div class="pd-price-row">
+                      <span class="pd-price">$${formatPrice(product.price)}</span>
+                
+                      <label class="pd-qty">
+                        Cantidad
+                        <input type="number" min="1" value="1">
+                      </label>
+                  </div>
+              
+                  <div class="pd-actions">
+                      <a href="#" class="btn-primary">Añadir al carrito</a>
+                      <a href="index.html" class="btn-ghost">Volver al inicio</a>
+                  </div>
+              </div>
+            </section>
+        `;
         
         // Configurar funcionalidad del botón "Añadir al carrito"
         setupAddToCart(product);
