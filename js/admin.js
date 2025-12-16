@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
         catch (error) { // el catch se ejecuta si hay un error en el try
             console.error('Error fetching products from Airtable:', error);
         }
-    }   
+    }
 
 
     // Forms
@@ -494,7 +494,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // si se hace click en el botón editar
         if (event.target.classList.contains('btn-edit')) {
-            const productRecordId = event.target.getAttribute('id'); // recordId de Airtable
+            const productRecordId = event.target.getAttribute('id'); 
             const product = listProducts.find(product => product.recordId === productRecordId);
 
             if (product) {
@@ -506,11 +506,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // si se hace click en el botón eliminar
         if (event.target.classList.contains('btn-delete')) {
-            const productRecordId = event.target.getAttribute('id'); // recordId de Airtable
+            const productRecordId = event.target.getAttribute('id'); 
             const product = listProducts.find(product => product.recordId === productRecordId);
 
             if (product) {
-                createDeleteToast(productRecordId, product.name);  // llamar al toast
+                createDeleteToast(productRecordId, product.name); 
             }
         }
     });
@@ -531,7 +531,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     'Authorization': `Bearer ${API_TOKEN}`,
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({  // lo transformo porque el contenido del body de una promesa HTTP siempre deben ser un string
+                body: JSON.stringify({  
                     fields: { 
                         Name: product.name,
                         Price: product.price,

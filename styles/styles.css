@@ -892,7 +892,7 @@ body {
 }
 
 .btn-cancel:hover {
-    background: #5a6268;
+    background-color: #5a6268;
 }
 
 /* Botón guardar */
@@ -907,7 +907,7 @@ body {
 }
 
 .btn-submit:hover {
-    background: #6d1028;
+    background-color: #6d1028;
 }
 
 /* Estilos de focus para mejor UX */
@@ -953,7 +953,7 @@ body {
     font-size: 16px;
     color: #666;
     margin-bottom: 25px;
-    line-height: 1.5;
+    line-height: 1.5; /*24px de altura*/
 }
 
 .toast-buttons {
@@ -1059,7 +1059,6 @@ body {
     gap: 20px;
     align-items: center;
     z-index: 1000;
-    transform: translateY(100px);
     opacity: 0;
     transition: all 0.3s ease;
 }

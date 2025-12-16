@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
             const data = await response.json();
-            // console.log('products from Airtable', data);
+            console.log('products from Airtable', data);
             const mappedProducts = data.records.map (item => ({
                 recordId: item.id,
                 name: item.fields.Name,
@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 img: item.fields.Img,
                 category: item.fields.Category
             }));
-            listProducts = mappedProducts; // actualizar la lista de productos con los datos de Airtable
-            // console.log('mapped products from Airtable:', mappedProducts);
+            listProducts = mappedProducts; 
+            console.log('mapped products from Airtable:', mappedProducts);
             renderProducts(mappedProducts);
         }
-        catch (error) { // el catch se ejecuta si hay un error en el try
+        catch (error) {
             console.error('Error fetching products from Airtable:', error);
         }
     }
@@ -38,14 +38,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     
     //dom elements
-    const productsDomElements = document.querySelector('.products-container'); // elemento padre
+    const productsDomElements = document.querySelector('.products-container'); 
     const inputSearch = document.getElementById('input-search-products');
     const categoryLinks = document.querySelectorAll('.category-product-filter');
 
     
-
-
-    // estado global
     let listProducts = [];
     const currentFilters = { text: '', category: ''};
 
@@ -67,12 +64,9 @@ document.addEventListener('DOMContentLoaded', function() {
     //functions
     function createProduct(product) {
 
-        // creo el nuevo div
         const newProduct = document.createElement('div');
         newProduct.setAttribute('class', 'product-card');
 
-        
-        // creo elementos del producto
         const newAnchor = document.createElement('a');
         newAnchor.setAttribute('href',  `./product-detail.html?code=${encodeURIComponent(product.recordId)}`);
         
@@ -105,7 +99,6 @@ document.addEventListener('DOMContentLoaded', function() {
             addToCart(product);
         });
         
-        // agrego los elementos al div
         newDiv.appendChild(newImg);
         newDiv.appendChild(newProductName);
         newDiv.appendChild(newProductCategory);
