@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         const newProductName = document.createElement('h4');
         newProductName.setAttribute('class', 'product-name');
-        newProductName.setAttribute('id', `product-name-${product.id}`);
+        newProductName.setAttribute('id', `product-name-${product.recordId}`);
         newProductName.innerText = product.name;
 
         const newProductCategory = document.createElement('p');
@@ -46,12 +46,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const newBtnEdit = document.createElement('button');
         newBtnEdit.setAttribute('class', 'btn-edit');
         newBtnEdit.setAttribute('type', 'submit')
-        newBtnEdit.setAttribute('id', product.id);
+        newBtnEdit.setAttribute('id', product.recordId);
         newBtnEdit.innerText = 'Editar';
 
         const newBtnDelete = document.createElement('button');
         newBtnDelete.setAttribute('class', 'btn-delete');
-        newBtnDelete.setAttribute('id', product.id);
+        newBtnDelete.setAttribute('id', product.recordId);
         newBtnDelete.innerText = 'Eliminar';
 
         newDiv.appendChild(newImg);
@@ -87,6 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log('products from Airtable', data);
             const mappedProducts = data.records.map (item => ({
                 name: item.fields.Name,
+                recordId: item.id,
                 price: item.fields.Price,
                 img: item.fields.Img,
                 category: item.fields.Category
@@ -104,6 +105,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Edition form
     
     function createEditForm(product) {
+        
+        console.log('Product received in createEditForm:', product);
+        console.log('RecordId:', product.recordId);
+
         const newDivOverlay = document.createElement('div');
         newDivOverlay.setAttribute('class', 'edit-overlay');
 
@@ -132,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
         inputName.setAttribute('type', 'text');
         inputName.setAttribute('id', 'edit-name');
         inputName.setAttribute('class', 'form-input');
-        // inputName.setAttribute('value', product.name);
+        inputName.setAttribute('value', product.name);
 
         divName.appendChild(labelName);
         divName.appendChild(inputName);
@@ -196,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
         inputImg.setAttribute('type', 'text');
         inputImg.setAttribute('id', 'edit-img');
         inputImg.setAttribute('class', 'form-input');
-        // inputImg.setAttribute('value', product.img);
+        inputImg.setAttribute('value', product.img);
         divImg.appendChild(labelImg);
         divImg.appendChild(inputImg);
 
@@ -250,13 +255,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const updatedProduct = {
                 name: document.getElementById('edit-name').value,
-                price: document.getElementById('edit-price').value, 
+                price: parseFloat(document.getElementById('edit-price').value),
                 category: document.getElementById('edit-category').value,
                 img: document.getElementById('edit-img').value
             };
 
             // Llamar a la función de edición
-            await editProductInAirtable(product.id, updatedProduct);
+            await editProductInAirtable(product.recordId, updatedProduct);
             
             // Cerrar el form
             document.body.removeChild(newDivOverlay);
@@ -272,31 +277,32 @@ document.addEventListener("DOMContentLoaded", () => {
     adminContainer.addEventListener('click', (event) => {
         // Si se hace click en el botón editar
         if (event.target.classList.contains('btn-edit')) {
-            const productId = event.target.getAttribute('id');
-            const product = listProducts.map(product => product.id === productId);
-            
+            const productRecordId = event.target.getAttribute('id'); // recordId de Airtable
+            const product = listProducts.find(product => product.recordId === productRecordId);
+
             if (product) {
+                console.log('Product found:', product); // Para verificar
                 createEditForm(product);
             } else {
                 console.error('Producto no encontrado');
             }
         }
-        
+
         // Si se hace click en el botón eliminar
         if (event.target.classList.contains('btn-delete')) {
-            const productId = event.target.getAttribute('id');
-            const confirmDelete = confirm('¿Estás seguro de que quieres eliminar este producto?'); // no supe que opcion utilizar para una mejor interfaz
-            
+            const productRecordId = event.target.getAttribute('id'); // recordId de Airtable
+            const confirmDelete = confirm('¿Estás seguro de que quieres eliminar este producto?');
+
             if (confirmDelete) {
-                deleteProductInAirtable(productId);
+                deleteProductInAirtable(productRecordId); 
             }
         }
     });
 
 
-    async function editProductInAirtable (product) {
+    async function editProductInAirtable (recordId, updatedProduct) {
         try {
-            const response = await fetch(airtableUrl, {
+            const response = await fetch(`${airtableUrl}/${recordId}`, {
                 method: 'PATCH',  // si no le indico el método, por defecto siempre va a ser GET
                 headers: {
                     'Authorization': `Bearer ${API_TOKEN}`, // le indico el token de autorización, siempre debe llevar 'Bearer ' antes del token
@@ -304,15 +310,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
                 body: JSON.stringify({  // lo transformo porque el contenido del body de una promesa HTTP siempre deben ser un string
                     fields: {
-                        Name: product.name,
-                        Price: product.price,
-                        Category: product.category,
-                        Img: product.img
+                        Name: updatedProduct.name,
+                        Price: updatedProduct.price,
+                        Category: updatedProduct.category,
+                        Img: updatedProduct.img
                     }
                 })
             });
             const data = await response.json();
             console.log('edited product:', data);
+
+            // Recargar productos después de editar
+            await getProductsFromAirtable();
         } catch (error) {
             console.error('Error editing product in Airtable:', error);
         }
