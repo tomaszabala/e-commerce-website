@@ -1,8 +1,36 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    const AIRTABLE_TOKEN = "patvZf4rDTzTZtlSm.36eabe7c235010352960974d5604d020d140d9bfb39e772a0a8d5937f8171b83";
-    const BASE_ID = "apprjdFndW1TUrjzi";
-    const TABLE_NAME = "Products";
+    const API_TOKEN = "patvZf4rDTzTZtlSm.36eabe7c235010352960974d5604d020d140d9bfb39e772a0a8d5937f8171b83";
+    const baseId = "apprjdFndW1TUrjzi";
+    const tableName = "Products";
+    const airtableUrl = `https://api.airtable.com/v0/${baseId}/${tableName}`;
+
+    // Airtable functions and promises
+    async function getProductsFromAirtable () {
+        try {
+            const response = await fetch(airtableUrl, {
+                headers: {
+                    'Authorization': `Bearer ${API_TOKEN}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            const data = await response.json();
+            // console.log('products from Airtable', data);
+            const mappedProducts = data.records.map (item => ({
+                recordId: item.id,
+                name: item.fields.Name,
+                price: item.fields.Price,
+                img: item.fields.Img,
+                category: item.fields.Category
+            }));
+            listProducts = mappedProducts; // actualizar la lista de productos con los datos de Airtable
+            // console.log('mapped products from Airtable:', mappedProducts);
+            renderProducts(mappedProducts);
+        }
+        catch (error) { // el catch se ejecuta si hay un error en el try
+            console.error('Error fetching products from Airtable:', error);
+        }
+    }
 
     
     // Inicializar cartCounter al cargar la página
@@ -14,11 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const inputSearch = document.getElementById('input-search-products');
     const categoryLinks = document.querySelectorAll('.category-product-filter');
 
-    //data Airtable
-    const API_TOKEN = AIRTABLE_TOKEN;
-    const baseId = BASE_ID;
-    const tableName = TABLE_NAME;
-    const airtableUrl = `https://api.airtable.com/v0/${baseId}/${tableName}`;
+    
+
 
     // estado global
     let listProducts = [];
@@ -176,32 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Por ejemplo puedo tomar datos de un listado de autos de Mercado Libre y aplicarle técnicas de scraping para poder utilizar el código en mi propia web.
 
 
-    // Airtable functions and promises
-    async function getProductsFromAirtable () {
-        try {
-            const response = await fetch(airtableUrl, {
-                headers: {
-                    'Authorization': `Bearer ${API_TOKEN}`,
-                    'Content-Type': 'application/json'
-                }
-            })
-            const data = await response.json();
-            // console.log('products from Airtable', data);
-            const mappedProducts = data.records.map (item => ({
-                recordId: item.id,
-                name: item.fields.Name,
-                price: item.fields.Price,
-                img: item.fields.Img,
-                category: item.fields.Category
-            }));
-            listProducts = mappedProducts; // actualizar la lista de productos con los datos de Airtable
-            // console.log('mapped products from Airtable:', mappedProducts);
-            renderProducts(mappedProducts);
-        }
-        catch (error) { // el catch se ejecuta si hay un error en el try
-            console.error('Error fetching products from Airtable:', error);
-        }
-    }
+    
 
     getProductsFromAirtable();
 
