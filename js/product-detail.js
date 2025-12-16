@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
             recordId: productData.id,
             name: productData.fields.Name,
             price: productData.fields.Price,
-            img: productData.fields.Img,
+            img: productData.fields.Img_Detail,
             category: productData.fields.Category,
             description: productData.fields.Description || 'Sin descripción disponible.',
             bodega: productData.fields.Bodega || 'N/A',
