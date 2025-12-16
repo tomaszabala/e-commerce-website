@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             })
             const data = await response.json();
-            console.log('products from Airtable', data);
+            // console.log('products from Airtable', data);
             const mappedProducts = data.records.map (item => ({
                 name: item.fields.Name,
                 recordId: item.id,
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 category: item.fields.Category
             }));
             listProducts = mappedProducts; // actualizar la lista de productos con los datos de Airtable
-            console.log('mapped products from Airtable:', mappedProducts);
+            // console.log('mapped products from Airtable:', mappedProducts);
             renderProducts(mappedProducts);
         }
         catch (error) { // el catch se ejecuta si hay un error en el try
@@ -105,10 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Edition form
     
     function createEditForm(product) {
-        
-        console.log('Product received in createEditForm:', product);
-        console.log('RecordId:', product.recordId);
 
+        // Create overlay
         const newDivOverlay = document.createElement('div');
         newDivOverlay.setAttribute('class', 'edit-overlay');
 
@@ -281,7 +279,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const product = listProducts.find(product => product.recordId === productRecordId);
 
             if (product) {
-                console.log('Product found:', product); // Para verificar
                 createEditForm(product);
             } else {
                 console.error('Producto no encontrado');
